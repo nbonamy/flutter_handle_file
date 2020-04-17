@@ -217,9 +217,9 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
 List<String> getCmds() {
   if (Platform.isIOS) {
-    return [ '/usr/bin/xcrun simctl openurl booted "file://<local pdf file>"' ];
+    return [ '/usr/bin/xcrun simctl openurl booted "file://\$(pwd)/data/test.pdf"' ];
   } else if (Platform.isAndroid) {
-    return [ 'adb push <local pdf file> /sdcard', 'Use Files app on device' ];
+    return [ 'adb push ./data/test.pdf /sdcard', 'Use Files app on device' ];
   } else {
     return null;
   }
