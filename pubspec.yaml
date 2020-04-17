@@ -1,6 +1,6 @@
 name: flutter_handle_file
-description: Flutter plugin for accepting incoming links - App/Deep Links (Android), Universal Links and Custom URL schemes (iOS).
-version: 0.1.0
+description: Flutter plugin project to help with associating files with your app and handling the opening of such files.
+version: 0.1.1
 homepage: https://github.com/nbonamy/flutter_handle_file
 
 dependencies:
