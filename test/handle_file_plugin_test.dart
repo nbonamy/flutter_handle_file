@@ -29,13 +29,13 @@ void main() {
     );
   });
 
-  /*test('getInitialUri', () async {
+  test('getInitialUri', () async {
     await getInitialUri();
     expect(
       log,
-      <Matcher>[isMethodCall('getInitialUri', arguments: null)],
+      <Matcher>[isMethodCall('getInitialFile', arguments: null)],
     );
-  });*/
+  });
 
   test('getFilesStream', () async {
     Stream<String> stream = getFilesStream();

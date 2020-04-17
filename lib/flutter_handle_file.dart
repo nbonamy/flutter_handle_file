@@ -16,7 +16,8 @@ Stream<String> _stream;
 ///   * a [PlatformException], if the invocation failed in the platform plugin.
 Future<String> getInitialFile() async {
   final String initialFile = await _mChannel.invokeMethod('getInitialFile');
-  return initialFile;
+  if (initialFile == null) return null;
+  return Uri.parse(initialFile)?.path;
 }
 
 /// A convenience method that returns the initially stored link
@@ -25,7 +26,7 @@ Future<String> getInitialFile() async {
 /// If the link is not valid as a URI or URI reference,
 /// a [FormatException] is thrown.
 Future<Uri> getInitialUri() async {
-  final String link = await getInitialFile();
+  final String link = await _mChannel.invokeMethod('getInitialFile');
   if (link == null) return null;
   return Uri.parse(link);
 }
@@ -43,15 +44,36 @@ Future<Uri> getInitialUri() async {
 /// through the `FlutterError` facility. Stream activation happens only when
 /// stream listener count changes from 0 to 1. Stream deactivation happens
 /// only when stream listener count changes from 1 to 0.
-///
-/// If the app was stared by a link intent or user activity the stream will
-/// not emit that initial one - query either the `getInitialFile` instead.
-Stream<String> getFilesStream() {
+Stream<String> getStream() {
   if (_stream == null) {
     _stream = _eChannel.receiveBroadcastStream().cast<String>();
   }
   return _stream;
 }
+
+/// A convenience transformation of the stream to a `Stream<String>`.
+///
+/// If the link is not valid as a URI or URI reference,
+/// a [FormatException] is thrown.
+///
+/// Refer to `getLinksStream` about error/exception details.
+///
+/// If the app was stared by a link intent or user activity the stream will
+/// not emit that initial uri - query either the `getInitialFile` instead.
+Stream<String> getFilesStream() {
+  return getStream().transform<String>(
+    new StreamTransformer<String, String>.fromHandlers(
+      handleData: (String link, EventSink<String> sink) {
+        if (link == null) {
+          sink.add(null);
+        } else {
+          sink.add(Uri.parse(link)?.path);
+        }
+      },
+    ),
+  );
+}
+
 
 /// A convenience transformation of the stream to a `Stream<Uri>`.
 ///
@@ -63,7 +85,7 @@ Stream<String> getFilesStream() {
 /// If the app was stared by a link intent or user activity the stream will
 /// not emit that initial uri - query either the `getInitialUri` instead.
 Stream<Uri> getUriFilesStream() {
-  return getFilesStream().transform<Uri>(
+  return getStream().transform<Uri>(
     new StreamTransformer<String, Uri>.fromHandlers(
       handleData: (String link, EventSink<Uri> sink) {
         if (link == null) {
