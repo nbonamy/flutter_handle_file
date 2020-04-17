@@ -6,7 +6,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-const MethodChannel _mChannel = const MethodChannel('flutter_handle_file/messages');
+const MethodChannel _mChannel =
+    const MethodChannel('flutter_handle_file/messages');
 const EventChannel _eChannel = const EventChannel('flutter_handle_file/events');
 Stream<String> _stream;
 
@@ -73,7 +74,6 @@ Stream<String> getFilesStream() {
     ),
   );
 }
-
 
 /// A convenience transformation of the stream to a `Stream<Uri>`.
 ///

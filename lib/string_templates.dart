@@ -1,9 +1,7 @@
-
 String androidManifestTemplate(
   String fileExtension,
   String mimeType,
 ) {
-
   return '''
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -79,7 +77,6 @@ String iosInfoPlistTemplate(
   String fileExtension,
   String mimeType,
 ) {
-
   return '''
   <key>CFBundleDocumentTypes</key>
 	<array>

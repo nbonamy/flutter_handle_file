@@ -1,17 +1,16 @@
-
 import 'dart:io';
 import 'package:flutter_handle_file/string_templates.dart';
 import 'package:yaml/yaml.dart';
 
 class HandleFileInstall {
-
   final String _yamlKey = "flutter_handle_file";
   final String _yamlBundleIdentifier = "bundle_identifier";
   final String _yamlBundleTypeName = "bundle_type_name";
   final String _yamlExtensions = "extensions";
   final String _yamlMimeType = "mime_type";
 
-  final String _androidManifestFileName = 'android/app/src/main/AndroidManifest.xml';
+  final String _androidManifestFileName =
+      'android/app/src/main/AndroidManifest.xml';
   final String _iOSInfoPlistFileName = 'ios/Runner/Info.plist';
 
   final String _androidActivity = ".MainActivity";
@@ -19,14 +18,13 @@ class HandleFileInstall {
   final String _delimiter = "<!-- flutter_handle_file -->";
 
   void install(List<String> arguments) {
-
     // check configuration
     YamlMap config = _loadConfigFile();
     if (!config.containsKey(_yamlBundleIdentifier) ||
         !config.containsKey(_yamlBundleTypeName) ||
-        !config.containsKey(_yamlExtensions)
-    ) {
-      throw new Exception("Configuration expects $_yamlExtensions, $_yamlBundleIdentifier, $_yamlBundleTypeName and $_yamlMimeType");
+        !config.containsKey(_yamlExtensions)) {
+      throw new Exception(
+          "Configuration expects $_yamlExtensions, $_yamlBundleIdentifier, $_yamlBundleTypeName and $_yamlMimeType");
     }
 
     // platform configuration
@@ -35,7 +33,6 @@ class HandleFileInstall {
 
     // iterate on extensions
     for (YamlMap extensionEntry in config[_yamlExtensions]) {
-
       String fileExtension = extensionEntry.keys.first;
       String mimeType = extensionEntry.values.first;
 
@@ -50,8 +47,6 @@ class HandleFileInstall {
         fileExtension,
         mimeType,
       );
-
-
     }
 
     // add delimiters
@@ -61,12 +56,9 @@ class HandleFileInstall {
     // now add
     updateAndroidManifest(andConfiguration);
     updateIosInfoPlist(iosConfiguration);
-
   }
 
-
   YamlMap _loadConfigFile() {
-
     final File file = File("pubspec.yaml");
     final String yamlString = file.readAsStringSync();
     final Map yamlMap = loadYaml(yamlString);
@@ -78,11 +70,9 @@ class HandleFileInstall {
 
     // done
     return yamlMap[_yamlKey];
-
   }
 
   void updateAndroidManifest(String andConfiguration) async {
-
     // read the file
     final File androidManifestFile = File(_androidManifestFileName);
     final List<String> lines = await androidManifestFile.readAsLines();
@@ -93,7 +83,6 @@ class HandleFileInstall {
     bool inPreviousContent = false;
     List<String> newLines = List();
     for (int x = 0; x < lines.length; x++) {
-
       // get
       String line = lines[x];
 
@@ -105,7 +94,6 @@ class HandleFileInstall {
 
       // end of activity
       if (line.contains("</activity>")) {
-
         // add our content
         if (inTargetActivity) {
           newLines.addAll(andConfiguration.split("\n"));
@@ -113,7 +101,6 @@ class HandleFileInstall {
 
         // done
         inActivity = false;
-
       }
 
       // start of activity
@@ -128,18 +115,14 @@ class HandleFileInstall {
       if (inPreviousContent == false && line.trim().length > 0) {
         newLines.add(line);
       }
-
     }
 
     // update
     androidManifestFile.writeAsString(newLines.join('\n'));
     print("Android Manifest updated ($_androidManifestFileName)");
-
   }
 
-
   void updateIosInfoPlist(String iosConfiguration) async {
-
     // read the file
     final File iOSInfoPlistFile = File(_iOSInfoPlistFileName);
     final List<String> lines = await iOSInfoPlistFile.readAsLines();
@@ -148,7 +131,6 @@ class HandleFileInstall {
     bool inPreviousContent = false;
     List<String> newLines = List();
     for (int x = 0; x < lines.length; x++) {
-
       // get
       String line = lines[x];
 
@@ -160,21 +142,17 @@ class HandleFileInstall {
 
       // end of dict
       if (line.contains("</plist>")) {
-        newLines.insertAll(newLines.length-1, iosConfiguration.split("\n"));
+        newLines.insertAll(newLines.length - 1, iosConfiguration.split("\n"));
       }
 
       // done
       if (inPreviousContent == false && line.trim().length > 0) {
         newLines.add(line);
       }
-
     }
 
     // update
     iOSInfoPlistFile.writeAsString(newLines.join('\n'));
     print("Android Manifest updated ($_iOSInfoPlistFileName)");
-
-
   }
-
 }
