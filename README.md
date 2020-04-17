@@ -56,7 +56,7 @@ flutter pub run flutter_handle_file:main
 
 ## Usage
 
-There are two ways your app will recieve a file - from cold start and brought.
+There are two ways your app will receive a file - from cold start and brought.
 
 ### Initial File
 
@@ -144,7 +144,7 @@ On Android, you need to use adb to push a local file to the device.
 adb push <local_file> /sdcard/
 ```
 
-You can then use the `Files` application to click on the file.
+You can then use the `Files` application on the device (or emulator) to click on the file.
 
 ### iOS
 
