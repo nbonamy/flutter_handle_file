@@ -2,7 +2,7 @@
 
 [![Travis' Continuous Integration build status](https://api.travis-ci.org/nbonamy/flutter_handle_file.svg?branch=master)](https://travis-ci.org/nbonamy/flutter_handle_file)
 
-A Flutter plugin project to help with associating files with your app and handling the openingo of such files.
+A Flutter plugin project to help with associating files with your app and handling the opening of such files.
 
 Make sure you read both the Installation and the Usage guides.
 
