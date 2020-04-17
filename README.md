@@ -1,4 +1,4 @@
-# Uni Links
+# Flutter Handle File
 
 [![Travis' Continuous Integration build status](https://api.travis-ci.org/nbonamy/flutter_handle_file.svg?branch=master)](https://travis-ci.org/nbonamy/flutter_handle_file)
 
@@ -6,6 +6,7 @@ A Flutter plugin project to help with associating files with your app and handli
 
 Make sure you read both the Installation and the Usage guides.
 
+This work is more than heavily derived from https://github.com/avioli/uni_links.
 
 ## Installation
 
