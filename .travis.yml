@@ -64,7 +64,7 @@ matrix:
           packages:
             - lib32stdc++6 # https://github.com/flutter/flutter/issues/6207
             - libstdc++6
-            - fonts-droid
+            - fonts-droid-fallback
       before_script:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
         - mkdir android-sdk
