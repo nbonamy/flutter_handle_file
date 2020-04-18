@@ -20,7 +20,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   final List<String> _cmds = getCmds();
   final TextStyle _cmdStyle = const TextStyle(
-      fontFamily: 'Courier', fontSize: 12.0, fontWeight: FontWeight.w700);
+    fontFamily: 'Courier',
+    fontSize: 12.0,
+    fontWeight: FontWeight.w700,
+  );
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -171,20 +174,28 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     Widget platformCmds;
 
     if (commands == null) {
-      platformCmds = const Center(child: const Text('Unsupported platform'));
+      platformCmds = const Center(
+        child: const Text('Unsupported platform'),
+      );
     } else {
       platformCmds = new Column(
         children: <List<Widget>>[
           [
             const Text(
-                'To populate above fields open a terminal shell and run:\n')
+                'To populate above fields open a terminal shell and run:\n'),
           ],
           intersperse(
-              commands.map<Widget>((cmd) => new InkWell(
-                    onTap: () => _printAndCopy(cmd),
-                    child: new Text('\n$cmd\n', style: _cmdStyle),
-                  )),
-              const Text('or')),
+            commands.map<Widget>(
+              (cmd) => new InkWell(
+                onTap: () => _printAndCopy(cmd),
+                child: new Text(
+                  '\n$cmd\n',
+                  style: _cmdStyle,
+                ),
+              ),
+            ),
+            const Text('or'),
+          ),
           [
             new Text(
                 '(tap on any of the above commands to print it to'
@@ -207,7 +218,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   _printAndCopy(String cmd) async {
     print(cmd);
-
     await Clipboard.setData(new ClipboardData(text: cmd));
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: const Text('Copied to Clipboard'),
@@ -217,9 +227,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
 List<String> getCmds() {
   if (Platform.isIOS) {
-    return [ '/usr/bin/xcrun simctl openurl booted "file://\$(pwd)/data/test.pdf"' ];
+    return [
+      '/usr/bin/xcrun simctl openurl booted "file://\$(pwd)/data/test.pdf"'
+    ];
   } else if (Platform.isAndroid) {
-    return [ 'adb push ./data/test.pdf /sdcard', 'Use Files app on device' ];
+    return ['adb push ./data/test.pdf /sdcard', 'Use Files app on device'];
   } else {
     return null;
   }
