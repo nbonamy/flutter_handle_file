@@ -25,7 +25,7 @@ matrix:
     - os: linux
       env:
         - SHARD=Format+Test
-      jdk: oraclejdk8
+      jdk: oraclejdk9
       sudo: false
       addons:
         apt:
@@ -54,7 +54,7 @@ matrix:
     - os: linux
       env:
         - SHARD=Build-example-APK+Java-Tests
-      jdk: oraclejdk8
+      jdk: oraclejdk9
       sudo: false
       addons:
         apt:
