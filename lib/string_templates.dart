@@ -119,9 +119,7 @@ String iosInfoPlistTemplate(
 	</array>''';
 }
 
-String iosAdditionalConfiguration(
-  bool supportsInPlace
-) {
+String iosAdditionalConfiguration(bool supportsInPlace) {
   return '''
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<${supportsInPlace == true ? 'true' : 'false'}/>''';

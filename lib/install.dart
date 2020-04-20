@@ -54,9 +54,8 @@ class HandleFileInstall {
     andConfiguration = '$_delimiter\n$andConfiguration\n$_delimiter';
 
     // add additional configuration
-    iosConfiguration += '\n' + iosAdditionalConfiguration(
-      config[_yamlIOSInPlace]
-    );
+    iosConfiguration +=
+        '\n' + iosAdditionalConfiguration(config[_yamlIOSInPlace]);
 
     // now add
     updateAndroidManifest(andConfiguration);
@@ -137,7 +136,6 @@ class HandleFileInstall {
     bool inSkippedLines = false;
     List<String> newLines = List();
     for (int x = 0; x < lines.length; x++) {
-
       // get
       String line = lines[x];
 
