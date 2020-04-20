@@ -1,3 +1,8 @@
+## [0.2.0] - 2020-04-20
+
+* Support for in-place flag for iOS
+* Info.plist update with delimiters as XCode can strip them
+
 ## [0.1.2] - 2020-04-17
 
 * Flutter format
