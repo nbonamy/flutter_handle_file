@@ -8,6 +8,7 @@ class HandleFileInstall {
   final String _yamlBundleTypeName = 'bundle_type_name';
   final String _yamlExtensions = 'extensions';
   final String _yamlMimeType = 'mime_type';
+  final String _yamlIOSInPlace = 'in_place';
 
   final String _androidManifestFileName =
       'android/app/src/main/AndroidManifest.xml';
@@ -51,7 +52,11 @@ class HandleFileInstall {
 
     // add delimiters
     andConfiguration = '$_delimiter\n$andConfiguration\n$_delimiter';
-    iosConfiguration = '$_delimiter\n$iosConfiguration\n$_delimiter';
+
+    // add additional configuration
+    iosConfiguration += '\n' + iosAdditionalConfiguration(
+      config[_yamlIOSInPlace]
+    );
 
     // now add
     updateAndroidManifest(andConfiguration);
@@ -112,7 +117,7 @@ class HandleFileInstall {
       }
 
       // done
-      if (inPreviousContent == false && line.trim().length > 0) {
+      if (inPreviousContent == false) {
         newLines.add(line);
       }
     }
@@ -128,16 +133,34 @@ class HandleFileInstall {
     final List<String> lines = await iOSInfoPlistFile.readAsLines();
 
     // iterate
-    bool inPreviousContent = false;
+    int arrayDictDepth = 0;
+    bool inSkippedLines = false;
     List<String> newLines = List();
     for (int x = 0; x < lines.length; x++) {
+
       // get
       String line = lines[x];
 
-      // delimiter
-      if (line.contains(_delimiter)) {
-        inPreviousContent = !inPreviousContent;
-        continue;
+      // count depth
+      if (line.contains('<array>') || line.contains('<dict>')) {
+        arrayDictDepth++;
+      }
+      if (line.contains('</array>') || line.contains('</dict>')) {
+        if (--arrayDictDepth == 0) {
+          inSkippedLines = false;
+        }
+      }
+
+      // now do we need to skip
+      if (line.contains('<key>') && arrayDictDepth == 1) {
+        //print('Stop skipping because of $line');
+        inSkippedLines = false;
+      }
+      if (line.contains('CFBundleDocumentTypes') ||
+          line.contains('UTExportedTypeDeclarations') ||
+          line.contains('LSSupportsOpeningDocumentsInPlace')) {
+        //print('Start skipping because of $line');
+        inSkippedLines = true;
       }
 
       // end of dict
@@ -146,7 +169,7 @@ class HandleFileInstall {
       }
 
       // done
-      if (inPreviousContent == false && line.trim().length > 0) {
+      if (inSkippedLines == false && line.trim().length > 0) {
         newLines.add(line);
       }
     }

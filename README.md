@@ -54,6 +54,10 @@ Once this is ready, you can ask `flutter_handle_file` to add the appropriate ent
 flutter pub run flutter_handle_file:main
 ```
 
+### Specific platform configuration
+
+You can also specify the `in_place` option for iOS. By default the `LSSupportsOpeningDocumentsInPlace` key will be created with the `false` value. Please check [this page](https://developer.apple.com/document-based-apps/) for more details about this value.
+
 ## Usage
 
 There are two ways your app will receive a file - from cold start and brought.

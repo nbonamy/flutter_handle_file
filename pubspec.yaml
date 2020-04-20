@@ -1,6 +1,6 @@
 name: flutter_handle_file
 description: Flutter plugin project to help with associating files with your app and handling the opening of such files.
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/nbonamy/flutter_handle_file
 
 dependencies:

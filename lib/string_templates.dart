@@ -78,7 +78,7 @@ String iosInfoPlistTemplate(
   String mimeType,
 ) {
   return '''
-  <key>CFBundleDocumentTypes</key>
+	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -117,4 +117,12 @@ String iosInfoPlistTemplate(
 			</dict>
 		</dict>
 	</array>''';
+}
+
+String iosAdditionalConfiguration(
+  bool supportsInPlace
+) {
+  return '''
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<${supportsInPlace == true ? 'true' : 'false'}/>''';
 }
