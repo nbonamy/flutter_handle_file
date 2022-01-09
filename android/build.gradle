@@ -1,4 +1,4 @@
-group 'net.nifni.flutter_intent_file_handler'
+group 'fr.bonamy.handlefile'
 version '1.0-SNAPSHOT'
 
 buildscript {
