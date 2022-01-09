@@ -13,10 +13,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
-  String _latestFile = 'Unknown';
-  Uri _latestUri;
+  String? _latestFile = 'Unknown';
+  Uri? _latestUri;
 
-  StreamSubscription _sub;
+  StreamSubscription? _sub;
 
   final List<String> _cmds = getCmds();
   final TextStyle _cmdStyle = const TextStyle(
@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   @override
   dispose() {
-    if (_sub != null) _sub.cancel();
+    _sub?.cancel();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   /// An implementation using a [String] link
   initPlatformStateForStringHandleFile() async {
     // Attach a listener to the links stream
-    _sub = getFilesStream().listen((String file) {
+    _sub = getFilesStream()?.listen((String file) {
       if (!mounted) return;
       setState(() {
         _latestFile = file ?? 'Unknown';
@@ -60,15 +60,15 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     });
 
     // Attach a second listener to the stream
-    getFilesStream().listen((String link) {
+    getFilesStream()?.listen((String link) {
       print('got link: $link');
     }, onError: (err) {
       print('got err: $err');
     });
 
     // Get the latest link
-    String initialFile;
-    Uri initialUri;
+    String? initialFile;
+    Uri? initialUri;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       initialFile = await getInitialFile();
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   /// An implementation using the [Uri] convenience helpers
   initPlatformStateForUriHandleFile() async {
     // Attach a listener to the Uri links stream
-    _sub = getUriFilesStream().listen((Uri uri) {
+    _sub = getUriFilesStream()?.listen((Uri uri) {
       if (!mounted) return;
       setState(() {
         _latestUri = uri;
@@ -109,15 +109,15 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     });
 
     // Attach a second listener to the stream
-    getUriFilesStream().listen((Uri uri) {
+    getUriFilesStream()?.listen((Uri uri) {
       print('got uri: ${uri?.path} ${uri?.queryParametersAll}');
     }, onError: (err) {
       print('got err: $err');
     });
 
     // Get the latest Uri
-    Uri initialUri;
-    String initialFile;
+    Uri? initialUri;
+    String? initialFile;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       initialUri = await getInitialUri();
@@ -219,7 +219,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   _printAndCopy(String cmd) async {
     print(cmd);
     await Clipboard.setData(new ClipboardData(text: cmd));
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+    _scaffoldKey.currentState?.showSnackBar(new SnackBar(
       content: const Text('Copied to Clipboard'),
     ));
   }
@@ -233,7 +233,7 @@ List<String> getCmds() {
   } else if (Platform.isAndroid) {
     return ['adb push ./data/test.pdf /sdcard', 'Use Files app on device'];
   } else {
-    return null;
+    return [];
   }
 }
 

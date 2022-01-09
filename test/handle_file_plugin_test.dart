@@ -38,12 +38,12 @@ void main() {
   });
 
   test('getFilesStream', () async {
-    Stream<String> stream = getFilesStream();
+    Stream<String>? stream = getFilesStream();
     expect(stream, isInstanceOf<Stream<String>>());
   });
 
   test('getUriFilesStream', () async {
-    Stream<Uri> stream = getUriFilesStream();
+    Stream<Uri>? stream = getUriFilesStream();
     expect(stream, isInstanceOf<Stream<Uri>>());
   });
 }
