@@ -55,7 +55,7 @@ class HandleFileInstall {
 
     // add additional configuration
     iosConfiguration +=
-        '\n' + iosAdditionalConfiguration(config[_yamlIOSInPlace]);
+        '\n' + iosAdditionalConfiguration(config[_yamlIOSInPlace] ?? false);
 
     // now add
     updateAndroidManifest(andConfiguration);
@@ -65,7 +65,7 @@ class HandleFileInstall {
   YamlMap _loadConfigFile() {
     final File file = File('pubspec.yaml');
     final String yamlString = file.readAsStringSync();
-    final Map yamlMap = loadYaml(yamlString);
+    final Map? yamlMap = loadYaml(yamlString);
 
     // test
     if (yamlMap == null || !(yamlMap[_yamlKey] is Map)) {
@@ -85,7 +85,7 @@ class HandleFileInstall {
     bool inActivity = false;
     bool inTargetActivity = false;
     bool inPreviousContent = false;
-    List<String> newLines = List();
+    List<String> newLines = [];
     for (int x = 0; x < lines.length; x++) {
       // get
       String line = lines[x];
@@ -134,7 +134,7 @@ class HandleFileInstall {
     // iterate
     int arrayDictDepth = 0;
     bool inSkippedLines = false;
-    List<String> newLines = List();
+    List<String> newLines = [];
     for (int x = 0; x < lines.length; x++) {
       // get
       String line = lines[x];
