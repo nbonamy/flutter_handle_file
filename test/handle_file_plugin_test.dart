@@ -8,13 +8,15 @@ import 'package:flutter_test/flutter_test.dart';
 import '../lib/flutter_handle_file.dart';
 
 void main() {
-
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const MethodChannel mChannel = const MethodChannel('flutter_handle_file/messages');
+  const MethodChannel mChannel =
+      const MethodChannel('flutter_handle_file/messages');
   final List<MethodCall> log = <MethodCall>[];
-  mChannel.setMockMethodCallHandler((MethodCall methodCall) async {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(mChannel, (MethodCall methodCall) async {
     log.add(methodCall);
+    return null;
   });
 
   tearDown(() {

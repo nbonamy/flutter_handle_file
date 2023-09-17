@@ -1,3 +1,7 @@
+## [0.3.0] - 2023-09-17
+
+* Null Safety
+
 ## [0.2.0] - 2020-04-20
 
 * Support for in-place flag for iOS

@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     _sub = getFilesStream()?.listen((String file) {
       if (!mounted) return;
       setState(() {
-        _latestFile = file ?? 'Unknown';
+        _latestFile = file;
       });
     }, onError: (err) {
       if (!mounted) return;
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
     // Attach a second listener to the stream
     getUriFilesStream()?.listen((Uri uri) {
-      print('got uri: ${uri?.path} ${uri?.queryParametersAll}');
+      print('got uri: ${uri.path} ${uri.queryParametersAll}');
     }, onError: (err) {
       print('got err: $err');
     });
@@ -201,7 +201,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 '(tap on any of the above commands to print it to'
                 ' the console/logger and copy to the device clipboard.)',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.caption),
+                style: Theme.of(context).textTheme.bodySmall),
           ]
         ].expand((el) => el).toList(),
       );
@@ -219,7 +219,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   _printAndCopy(String cmd) async {
     print(cmd);
     await Clipboard.setData(new ClipboardData(text: cmd));
-    _scaffoldKey.currentState?.showSnackBar(new SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
       content: const Text('Copied to Clipboard'),
     ));
   }
